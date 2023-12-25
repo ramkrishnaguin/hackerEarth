@@ -1,0 +1,41 @@
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.weight = 0
+
+
+def insert(root, string, weight):
+    node = root
+    for char in string:
+        if char not in node.children:
+            node.children[char] = TrieNode()
+        node = node.children[char]
+        node.weight = max(node.weight, weight)
+
+
+def find_max_weight(root, query):
+    node = root
+    for char in query:
+        if char not in node.children:
+            return -1
+        node = node.children[char]
+    return node.weight
+
+
+def main():
+    n, q = map(int, input().split())
+    root = TrieNode()
+
+    for _ in range(n):
+        entry, weight = input().split()
+        weight = int(weight)
+        insert(root, entry, weight)
+
+    for _ in range(q):
+        query = input().strip()
+        result = find_max_weight(root, query)
+        print(result)
+
+
+if __name__ == "__main__":
+    main()
